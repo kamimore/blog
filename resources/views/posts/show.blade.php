@@ -1,12 +1,10 @@
 @extends('layouts.app')
 
-@section('title','Home Page')
+@section('title','Single Post')
 
 @section('content')
-<h1>Post Page</h1>
+<h3>Single Post Page</h3>
 
+{{ $post->content }}
 
-@booktype($booktype)
-<h2>{{ $booktype }}</h2>
-@endbooktype
 @endsection

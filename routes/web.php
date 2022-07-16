@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PostsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,6 +22,4 @@ Route::get('/contact',function(){
     return view('home.contact');
 })->name('home.contact');
 
-Route::get('/post',function(){
-    return view('posts.show',['booktype'=>'newspaper']);
-})->name('posts.show');
+Route::resource('post',PostsController::class);
