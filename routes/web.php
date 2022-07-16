@@ -22,5 +22,5 @@ Route::get('/contact',function(){
 })->name('home.contact');
 
 Route::get('/post',function(){
-    return view('posts.show');
+    return view('posts.show',['booktype'=>'newspaper']);
 })->name('posts.show');

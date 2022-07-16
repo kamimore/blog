@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -23,6 +24,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Blade::if('booktype',function($booktype){
+            if(in_array($booktype,['comics','manga','newspaper','magzine']))
+            {
+                return true;
+            }
+            return false;
+        });
     }
 }
