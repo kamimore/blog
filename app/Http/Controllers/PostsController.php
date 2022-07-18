@@ -35,6 +35,10 @@ class PostsController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'title'=>'required|min:5',
+            'content'=>'required|min:5',
+        ]);
        $blog = BlogPost::create($request->all());
        return redirect()->route('post.show',['post'=>$blog->id]);
     }
