@@ -38,9 +38,9 @@ class PostsController extends Controller
     {
        $validated = $request->validated();
        $blog = BlogPost::create($request->validated());
-       return redirect()->route('post.show',['post'=>$blog->id]);
+       
+       return redirect()->route('post.show',['post'=>$blog->id])->with('status','Blog Post Added Successfully');
     }
-
     /**
      * Display the specified resource.
      *
