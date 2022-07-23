@@ -5,6 +5,7 @@
 @section('content')
 <h3>Single Post Page</h3>
 
-{{ $post->content }}
-
+<div>{{ $post->title }}</div>
+<div>{{ $post->content }}
+</div>
 @endsection

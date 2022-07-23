@@ -13,10 +13,15 @@
                 </ul>
             </div>
         @endif
-        <form action="{{ route('post.store') }}" method="Post">
+
+        <form action="{{ route('post.update',['post'=>$post->id]) }}" method="Post">
             @csrf
-            @include('posts.partials.form');
-            <button type="submit">Submit</button>
+            @method('PUT')
+
+            @include('posts.partials.form')
+
+            <button type="submit">Update</button>
         </form>
     </div>
+
 @endsection

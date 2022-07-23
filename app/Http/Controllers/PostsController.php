@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreRequest;
-use Illuminate\Http\Request;
 use App\Models\BlogPost;
+use Illuminate\Http\Request;
 
 class PostsController extends Controller
 {
@@ -15,7 +15,7 @@ class PostsController extends Controller
      */
     public function index()
     {
-        return view('posts.index',['posts'=>BlogPost::all()]);
+        return view('posts.index', ['posts' => BlogPost::all()]);
     }
 
     /**
@@ -34,12 +34,12 @@ class PostsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store( StoreRequest $request)
+    public function store(StoreRequest $request)
     {
-       $validated = $request->validated();
-       $blog = BlogPost::create($request->validated());
-       
-       return redirect()->route('post.show',['post'=>$blog->id])->with('status','Blog Post Added Successfully');
+        $validated = $request->validated();
+        $blog = BlogPost::create($validated);
+
+        return redirect()->route('post.show', ['post' => $blog->id])->with('status', 'Blog Post Added Successfully');
     }
     /**
      * Display the specified resource.
@@ -49,7 +49,7 @@ class PostsController extends Controller
      */
     public function show($id)
     {
-        return view('posts.show',['post'=>BlogPost::findorfail($id)]);
+        return view('posts.show', ['post' => BlogPost::findorfail($id)]);
     }
 
     /**
@@ -60,7 +60,7 @@ class PostsController extends Controller
      */
     public function edit($id)
     {
-        //
+        return view('posts.edit', ['post' => BlogPost::findorfail($id)]);
     }
 
     /**
@@ -70,11 +70,14 @@ class PostsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StoreRequest $request, $id)
     {
-        //
-    }
+        $validate = $request->validated();
+        $post = BlogPost::findorfail($id);
+        $post->fill($validate);
+        $post->save();
 
+        return redirect()->route('post.show', ['post' => $post->id])->with('status', 'Blog Post Updated Successfully');    }
     /**
      * Remove the specified resource from storage.
      *
