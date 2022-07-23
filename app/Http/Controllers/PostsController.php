@@ -77,7 +77,7 @@ class PostsController extends Controller
         $post->fill($validate);
         $post->save();
 
-        return redirect()->route('post.show', ['post' => $post->id])->with('status', 'Blog Post Updated Successfully');    }
+        return redirect()->route('post.show', ['post' => $post->id])->with('status', 'Blog Post Updated Successfully');}
     /**
      * Remove the specified resource from storage.
      *
@@ -86,6 +86,9 @@ class PostsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $post = BlogPost::findorfail($id);
+        $post->delete();
+        return redirect()->route('post.index')->with('status', 'Blog Post Deleted Successfully');
     }
+
 }
