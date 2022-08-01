@@ -15,8 +15,11 @@
         @endif
         <form action="{{ route('post.store') }}" method="Post">
             @csrf
-            @include('posts.partials.form');
-            <button type="submit">Submit</button>
+            @include('posts.partials.form')
+            <div class="d-grid gap-2 col-2 ms-auto">
+                <input type="submit" value="Submit" class="btn btn-primary btn-block mt-4">
+            </div>
+           
         </form>
     </div>
 @endsection

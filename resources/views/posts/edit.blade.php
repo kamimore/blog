@@ -20,7 +20,9 @@
 
             @include('posts.partials.form')
 
-            <button type="submit">Update</button>
+            <div class="d-grid gap-2 col-2 ms-auto">
+                <input type="submit" value="Update" class="btn btn-primary btn-block mt-4">
+            </div>
         </form>
     </div>
 
