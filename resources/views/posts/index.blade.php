@@ -3,24 +3,10 @@
 @section('title', 'All Posts')
 
 @section('content')
-    @forelse($posts as $post)
-        <div>
-            <ul>
-                <li>
-                    <a href="{{ route('post.show', ['post' => $post->id]) }}">{{ $post->title }}</a>
-                    <div>
-                        <form action="{{ route('post.destroy', ['post' => $post->id]) }}" method="POST">
-                            @csrf
-                            @method('DELETE')
-                            <input type="submit" value="Delete" style="background-color: rgb(246, 70, 70)">
-                        </form>
-                    </div>
-                </li>
-            </ul>
-        </div>
+    @forelse($posts as $jey => $post)
+        @include('posts.partials.post')
     @empty
-        <div>
-            <h2>No Posts!!</h2>
-        </div>
+       No Posts found!
     @endforelse
+    {{-- @each('posts.partials.post',$posts,'post','No Posts Found') --}}
 @endsection
