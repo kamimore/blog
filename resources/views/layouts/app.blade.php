@@ -23,7 +23,7 @@
     <div class="container">
         <div>
             @if (session('status'))
-                <span class="badge bg-success">
+                <span class="alert alert-success">
                     {{ session('status') }}
                 </span>
             @endif
