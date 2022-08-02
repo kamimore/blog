@@ -11,7 +11,7 @@
 </head>
 
 <body>
-    <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 bg-white border-bottom shadow-sm mb-3">
+    <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 bg-white border-bottom shadow-sm mb-4">
         <h3 class="my-0 me-md-auto font-weight-normal">Laravel App</h3>
         <nav class="my-2 my-md-0 me-md-3">
             <a href="{{ route('home.index') }}" class="p-2 text-dark text-decoration-none text-wrap">Home</a>
@@ -20,14 +20,14 @@
             <a href="{{ route('post.create') }}" class="p-2 text-dark text-decoration-none text-wrap" >Add Blog Post</a>
         </nav>
     </div>
+    <div class="container my-3  @if(session('status')) visible @else invisible @endif">
+        @if (session('status'))
+            <span class="alert alert-success">
+                {{ session('status') }}
+            </span>
+        @endif
+    </div>
     <div class="container">
-        <div>
-            @if (session('status'))
-                <span class="alert alert-success">
-                    {{ session('status') }}
-                </span>
-            @endif
-        </div>
         @yield('content')
     </div>
 </body>
