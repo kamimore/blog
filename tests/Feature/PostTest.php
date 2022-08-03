@@ -39,6 +39,15 @@ class PostTest extends TestCase
         $this->assertDatabaseHas('comments', $comment->toArray());
     }
 
+    public function testWhenThereIsBlogWithXComments()
+    {
+        $post = $this->CreateDummyBlogPost();
+        Comment::factory()->count(4)->create(['blog_post_id' => $post->id]);
+
+        $response = $this->get('/post');
+        $response->assertSeeText('4 comment present');
+    }
+
     public function testNoBlogPostWhenNothingInDB()
     {
         $response = $this->get('/post');
