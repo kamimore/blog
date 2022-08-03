@@ -2,14 +2,14 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
 use App\Models\BlogPost;
 use App\Models\Comment;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class PostTest extends TestCase
 {
-    use  RefreshDatabase;
+    use RefreshDatabase;
     /**
      * A basic feature test example.
      *
@@ -33,7 +33,7 @@ class PostTest extends TestCase
         $comment->content = 'I am new comment';
         $comment->blog_post_id = $post->id;
         $comment->save();
-        
+
         $response = $this->get('/post');
         $response->assertSeeText('1 comment present');
         $this->assertDatabaseHas('comments', $comment->toArray());
@@ -53,7 +53,7 @@ class PostTest extends TestCase
         $response = $this->get('/post');
         $response->assertSeeText('No Posts found!');
     }
-    
+
     public function testWhenOneSingleBlogPostIsPresent()
     {
         //Arrange
@@ -64,8 +64,8 @@ class PostTest extends TestCase
         //Assert
         $response->assertSeeText('A new title post');
 
-        $this->assertDatabaseHas('blog_posts',[
-            'title'=>'A new title post',
+        $this->assertDatabaseHas('blog_posts', [
+            'title' => 'A new title post',
         ]);
     }
 
@@ -76,27 +76,27 @@ class PostTest extends TestCase
             'content' => 'valid content',
         ];
 
-        $this->post('/post',$params)
-             ->assertStatus(302)
-             ->assertSessionHas('status');
-        
-        $this->assertEquals(session('status'),'Blog Post Added Successfully');
+        $this->post('/post', $params)
+            ->assertStatus(302)
+            ->assertSessionHas('status');
+
+        $this->assertEquals(session('status'), 'Blog Post Added Successfully');
     }
 
     public function testStoreFail()
     {
         $params = [
             'title' => 'x',
-            'content' => 'x'
+            'content' => 'x',
         ];
 
-        $this->post('/post',$params)
-             ->assertStatus(302)
-             ->assertSessionHas('errors');
+        $this->post('/post', $params)
+            ->assertStatus(302)
+            ->assertSessionHas('errors');
 
         $message = session('errors')->getBags()['default']->messages();
-        $this->assertEquals($message['title'][0],'The title must be at least 5 characters.');
-        $this->assertEquals($message['content'][0],'The content must be at least 5 characters.');
+        $this->assertEquals($message['title'][0], 'The title must be at least 5 characters.');
+        $this->assertEquals($message['content'][0], 'The content must be at least 5 characters.');
 
     }
 
@@ -112,8 +112,8 @@ class PostTest extends TestCase
         ];
 
         $this->put('/post/' . $post->id, $params)
-             ->assertStatus(302)
-             ->assertSessionHas('status');
+            ->assertStatus(302)
+            ->assertSessionHas('status');
 
         $this->assertEquals(session('status'), 'Blog Post Updated Successfully');
         $this->assertDatabaseHas('blog_posts', $params);
@@ -127,15 +127,15 @@ class PostTest extends TestCase
         $this->assertDatabaseHas('blog_posts', $post->toArray());
 
         $this->delete('/post/' . $post->id)
-             ->assertStatus(302)
-             ->assertSessionHas('status');
+            ->assertStatus(302)
+            ->assertSessionHas('status');
 
-        $this->assertEquals(session('status'),'Blog Post Deleted Successfully');
+        $this->assertEquals(session('status'), 'Blog Post Deleted Successfully');
 
         $this->assertDatabaseMissing('blog_posts', $post->toArray());
     }
 
-    private function CreateDummyBlogPost() : BlogPost
+    private function CreateDummyBlogPost(): BlogPost
     {
         // $post = new BlogPost();
         // $post->title = 'First Title';
@@ -145,4 +145,5 @@ class PostTest extends TestCase
         return BlogPost::factory()->SingleBlogPost()->create();
 
     }
+    
 }
