@@ -50,7 +50,7 @@ class PostsController extends Controller
      */
     public function show($id)
     {
-        return view('posts.show', ['post' => BlogPost::findorfail($id)]);
+        return view('posts.show', ['post' => BlogPost::with('Comment')->findorfail($id)]);
     }
 
     /**

@@ -1,10 +1,12 @@
 <h5><a href="{{ route('post.show',['post'=>$post->id]) }}" class="text-decoration-none">{{ $post->title ?? '' }}</a></h5>
 <div>
     <p>
-        @if($post->comment_count)
-            {{ $post->comment_count }} comment present
+        @if($post->comment_count == 1)
+            1 comment yet
+        @elseif($post->comment_count)
+            {{ $post->comment_count }} comments present
         @else
-            No Comments yet!
+            no comments yet!
         @endif
     </p>
 </div>
