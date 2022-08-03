@@ -21,7 +21,7 @@ class PostTest extends TestCase
         $post = $this->CreateDummyBlogPost();
 
         $response = $this->get('/post');
-        $response->assertSeeText('No Comments yet!');
+        $response->assertSeeText('no comments yet!');
 
         $this->assertDatabaseHas('blog_posts', $post->toArray());
     }
@@ -35,7 +35,7 @@ class PostTest extends TestCase
         $comment->save();
 
         $response = $this->get('/post');
-        $response->assertSeeText('1 comment present');
+        $response->assertSeeText('1 comment yet');
         $this->assertDatabaseHas('comments', $comment->toArray());
     }
 
@@ -45,7 +45,7 @@ class PostTest extends TestCase
         Comment::factory()->count(4)->create(['blog_post_id' => $post->id]);
 
         $response = $this->get('/post');
-        $response->assertSeeText('4 comment present');
+        $response->assertSeeText('4 comments present');
     }
 
     public function testNoBlogPostWhenNothingInDB()
@@ -94,9 +94,12 @@ class PostTest extends TestCase
             ->assertStatus(302)
             ->assertSessionHas('errors');
 
-        $message = session('errors')->getBags()['default']->messages();
-        $this->assertEquals($message['title'][0], 'The title must be at least 5 characters.');
-        $this->assertEquals($message['content'][0], 'The content must be at least 5 characters.');
+        // $message = session('errors')->getBags()['default']->messages();
+        // $this->assertEquals($message['title'][0], 'The title must be at least 5 characters.');
+        // $this->assertEquals($message['content'][0], 'The content must be at least 5 characters.');
+        $message = session('errors');
+        $this->assertEquals($message->first('title'), 'The title must be at least 5 characters.');
+        $this->assertEquals($message->first('content'), 'The content must be at least 5 characters.');
 
     }
 
