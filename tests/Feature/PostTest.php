@@ -23,11 +23,7 @@ class PostTest extends TestCase
     public function testWhenOneSingleBlogPostIsPresent()
     {
         //Arrange
-        $post = new BlogPost();
-        $post->title = 'First Title';
-        $post->content = 'First Title Content';
-        $post->save();
-
+        $post = $this->CreateDummyBlogPost();
         //Act
         $response = $this->get('/post');
 
@@ -72,10 +68,7 @@ class PostTest extends TestCase
 
     public function testUpdateValid()
     {
-        $post = new BlogPost;
-        $post->title = 'I am new title';
-        $post->content = 'I am new content';
-        $post->save();
+        $post = $this->CreateDummyBlogPost();
 
         $this->assertDatabaseHas('blog_posts', $post->toArray());
 
@@ -91,5 +84,30 @@ class PostTest extends TestCase
         $this->assertEquals(session('status'), 'Blog Post Updated Successfully');
         $this->assertDatabaseHas('blog_posts', $params);
         $this->assertDatabaseMissing('blog_posts', $post->toArray());
+    }
+
+    public function testDelete()
+    {
+        $post = $this->CreateDummyBlogPost();
+
+        $this->assertDatabaseHas('blog_posts', $post->toArray());
+
+        $this->delete('/post/' . $post->id)
+             ->assertStatus(302)
+             ->assertSessionHas('status');
+
+        $this->assertEquals(session('status'),'Blog Post Deleted Successfully');
+
+        $this->assertDatabaseMissing('blog_posts', $post->toArray());
+    }
+
+    private function CreateDummyBlogPost() : BlogPost
+    {
+        $post = new BlogPost();
+        $post->title = 'First Title';
+        $post->content = 'First Title Content';
+        $post->save();
+
+        return $post;
     }
 }
