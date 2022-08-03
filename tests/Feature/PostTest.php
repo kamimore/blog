@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use App\Models\BlogPost;
+use App\Models\Comment;
 
 class PostTest extends TestCase
 {
@@ -14,6 +15,30 @@ class PostTest extends TestCase
      *
      * @return void
      */
+
+    public function testWhenThereIsBlogWithNoComment()
+    {
+        $post = $this->CreateDummyBlogPost();
+
+        $response = $this->get('/post');
+        $response->assertSeeText('No Comments yet!');
+
+        $this->assertDatabaseHas('blog_posts', $post->toArray());
+    }
+
+    public function testWhenThereIsBlogWithOneComment()
+    {
+        $post = $this->CreateDummyBlogPost();
+        $comment = new Comment();
+        $comment->content = 'I am new comment';
+        $comment->blog_post_id = $post->id;
+        $comment->save();
+        
+        $response = $this->get('/post');
+        $response->assertSeeText('1 comment present');
+        $this->assertDatabaseHas('comments', $comment->toArray());
+    }
+
     public function testNoBlogPostWhenNothingInDB()
     {
         $response = $this->get('/post');
