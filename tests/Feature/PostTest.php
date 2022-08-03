@@ -38,4 +38,35 @@ class PostTest extends TestCase
             'title'=>'First Title',
         ]);
     }
+
+    public function testStoreValid()
+    {
+        $params = [
+            'title' => 'valid title',
+            'content' => 'valid content',
+        ];
+
+        $this->post('/post',$params)
+             ->assertStatus(302)
+             ->assertSessionHas('status');
+        
+        $this->assertEquals(session('status'),'Blog Post Added Successfully');
+    }
+
+    public function testStoreFail()
+    {
+        $params = [
+            'title' => 'x',
+            'content' => 'x'
+        ];
+
+        $this->post('/post',$params)
+             ->assertStatus(302)
+             ->assertSessionHas('errors');
+
+        $message = session('errors')->getBags()['default']->messages();
+        $this->assertEquals($message['title'][0],'The title must be at least 5 characters.');
+        $this->assertEquals($message['content'][0],'The content must be at least 5 characters.');
+
+    }
 }
