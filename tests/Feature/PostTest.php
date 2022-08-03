@@ -62,10 +62,10 @@ class PostTest extends TestCase
         $response = $this->get('/post');
 
         //Assert
-        $response->assertSeeText('First Title');
+        $response->assertSeeText('A new title post');
 
         $this->assertDatabaseHas('blog_posts',[
-            'title'=>'First Title',
+            'title'=>'A new title post',
         ]);
     }
 
@@ -137,11 +137,12 @@ class PostTest extends TestCase
 
     private function CreateDummyBlogPost() : BlogPost
     {
-        $post = new BlogPost();
-        $post->title = 'First Title';
-        $post->content = 'First Title Content';
-        $post->save();
+        // $post = new BlogPost();
+        // $post->title = 'First Title';
+        // $post->content = 'First Title Content';
+        // $post->save();
 
-        return $post;
+        return BlogPost::factory()->SingleBlogPost()->create();
+
     }
 }
